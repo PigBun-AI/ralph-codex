@@ -1,16 +1,18 @@
 # Ralph for Codex
 
-[![CI](https://github.com/frankbria/ralph-codex/actions/workflows/test.yml/badge.svg)](https://github.com/frankbria/ralph-codex/actions/workflows/test.yml)
+[![CI](https://github.com/PigBun-AI/ralph-codex/actions/workflows/test.yml/badge.svg)](https://github.com/PigBun-AI/ralph-codex/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/version-0.11.4-blue)
 ![Tests](https://img.shields.io/badge/tests-484%20passing-green)
-[![GitHub Issues](https://img.shields.io/github/issues/frankbria/ralph-codex)](https://github.com/frankbria/ralph-codex/issues)
+[![GitHub Issues](https://img.shields.io/github/issues/PigBun-AI/ralph-codex)](https://github.com/PigBun-AI/ralph-codex/issues)
 [![Mentioned in Awesome Codex](https://awesome.re/mentioned-badge.svg)](https://github.com/hesreallyhim/awesome-codex)
-[![Follow on X](https://img.shields.io/twitter/follow/FrankBria18044?style=social)](https://x.com/FrankBria18044)
 
 > **Autonomous AI development loop with intelligent exit detection and rate limiting**
 
 Ralph is an implementation of the Geoffrey Huntley's technique for Codex that enables continuous autonomous development cycles he named after [Ralph Wiggum](https://ghuntley.com/ralph/). It enables continuous autonomous development cycles where Codex iteratively improves your project until completion, with built-in safeguards to prevent infinite loops and API overuse.
+
+> **Attribution / Fork Notice**
+> This repository is an open-source derivative based on the upstream project [`frankbria/ralph-codex`](https://github.com/frankbria/ralph-codex), adapted and maintained for Codex workflows by **PigBun-AI**.
 
 **Install once, use everywhere** - Ralph becomes a global command available in any directory.
 
@@ -123,7 +125,7 @@ Ralph is an implementation of the Geoffrey Huntley's technique for Codex that en
 - Git backup and rollback system
 - [Automated badge updates](#138)
 
-**Timeline to v1.0**: ~4 weeks | [Full roadmap](IMPLEMENTATION_PLAN.md) | **Contributions welcome!**
+See [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for roadmap details. **Contributions welcome!**
 
 ## Features
 
@@ -166,7 +168,7 @@ INSTALL ONCE              USE MANY TIMES
 Install Ralph globally on your system:
 
 ```bash
-git clone https://github.com/frankbria/ralph-codex.git
+git clone https://github.com/PigBun-AI/ralph-codex.git
 cd ralph-codex
 ./install.sh
 ```
@@ -245,7 +247,7 @@ To completely remove Ralph from your system:
 ./uninstall.sh
 
 # Or if you deleted the repo, download and run:
-curl -sL https://raw.githubusercontent.com/frankbria/ralph-codex/main/uninstall.sh | bash
+curl -sL https://raw.githubusercontent.com/PigBun-AI/ralph-codex/main/uninstall.sh | bash
 ```
 
 ## Understanding Ralph Files
@@ -395,6 +397,7 @@ PROJECT_TYPE="typescript"
 
 # Loop settings
 MAX_CALLS_PER_HOUR=100
+# Note: CLAUDE_* names are legacy-compatible config keys used by Ralph internals.
 CLAUDE_TIMEOUT_MINUTES=15
 CLAUDE_OUTPUT_FORMAT="json"
 
@@ -722,7 +725,7 @@ tail -f .ralph/logs/ralph.log
 ### Common Issues
 
 - **Rate Limits** - Ralph automatically waits and displays countdown
-- **5-Hour API Limit** - Ralph detects and prompts for user action (wait or exit)
+- **API Usage Limit** - Ralph detects and prompts for user action (wait or exit)
 - **Stuck Loops** - Check `fix_plan.md` for unclear or conflicting tasks
 - **Early Exit** - Review exit thresholds if Ralph stops too soon
 - **Premature Exit** - Check if Codex is setting `EXIT_SIGNAL: false` (Ralph now respects this)
@@ -906,4 +909,4 @@ Ralph is seeking contributors! See [CONTRIBUTING.md](CONTRIBUTING.md) for the co
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=frankbria/ralph-codex&type=date&legend=top-left)](https://www.star-history.com/#frankbria/ralph-codex&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=PigBun-AI/ralph-codex&type=date&legend=top-left)](https://www.star-history.com/#PigBun-AI/ralph-codex&type=date&legend=top-left)
