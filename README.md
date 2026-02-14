@@ -776,6 +776,8 @@ npm test  # All 484 tests must pass
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+It includes upstream MIT-licensed code derived from [`frankbria/ralph-codex`](https://github.com/frankbria/ralph-codex).
+See [docs/ATTRIBUTION.md](docs/ATTRIBUTION.md) for attribution and fork history notes.
 
 ## Acknowledgments
 
