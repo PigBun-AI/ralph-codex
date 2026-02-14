@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (platform.openai.com/docs/codex) when working with code in this repository.
 
 ## Repository Overview
 
-This is the Ralph for Claude Code repository - an autonomous AI development loop system that enables continuous development cycles with intelligent exit detection and rate limiting.
+This is the Ralph for Codex repository - an autonomous AI development loop system that enables continuous development cycles with intelligent exit detection and rate limiting.
 
 See [README.md](README.md) for version info, changelog, and user documentation.
 
@@ -14,12 +14,12 @@ The system consists of four main bash scripts and a modular library system:
 
 ### Main Scripts
 
-1. **ralph_loop.sh** - The main autonomous loop that executes Claude Code repeatedly
+1. **ralph_loop.sh** - The main autonomous loop that executes Codex repeatedly
 2. **ralph_monitor.sh** - Live monitoring dashboard for tracking loop status
 3. **setup.sh** - Project initialization script for new Ralph projects
 4. **create_files.sh** - Bootstrap script that creates the entire Ralph system
 5. **ralph_import.sh** - PRD/specification import tool that converts documents to Ralph format
-   - Uses modern Claude Code CLI with `--output-format json` for structured responses
+   - Uses modern Codex CLI with `--output-format json` for structured responses
    - Implements `detect_response_format()` and `parse_conversion_response()` for JSON parsing
    - Backward compatible with older CLI versions (automatic text fallback)
 6. **ralph_enable.sh** - Interactive wizard for enabling Ralph in existing projects
@@ -42,12 +42,12 @@ The system uses a modular architecture with reusable components in the `lib/` di
    - Automatic state transitions and recovery
 
 2. **lib/response_analyzer.sh** - Intelligent response analysis
-   - Analyzes Claude Code output for completion signals
+   - Analyzes Codex output for completion signals
    - **JSON output format detection and parsing** (with text fallback)
-   - Supports both flat JSON format and Claude CLI format (`result`, `sessionId`, `metadata`)
+   - Supports both flat JSON format and Codex CLI format (`result`, `sessionId`, `metadata`)
    - Extracts structured fields: status, exit_signal, work_type, files_modified
    - **Session management**: `store_session_id()`, `get_last_session_id()`, `should_resume_session()`
-   - Automatic session persistence to `.ralph/.claude_session_id` file with 24-hour expiration
+   - Automatic session persistence to `.ralph/.codex_session_id` file with 24-hour expiration
    - Session lifecycle: `get_session_id()`, `reset_session()`, `log_session_transition()`, `init_session_tracking()`
    - Session history tracked in `.ralph/.ralph_session_history` (last 50 transitions)
    - Session auto-reset on: circuit breaker open, manual interrupt, project completion
@@ -203,18 +203,18 @@ The loop is controlled by several key files and environment variables within the
 
 ### Modern CLI Configuration (Phase 1.1)
 
-Ralph uses modern Claude Code CLI flags for structured communication:
+Ralph uses modern Codex CLI flags for structured communication:
 
 **Configuration Variables:**
 ```bash
 CLAUDE_OUTPUT_FORMAT="json"           # Output format: json (default) or text
 CLAUDE_ALLOWED_TOOLS="Write,Read,Edit,Bash(git *),Bash(npm *),Bash(pytest)"  # Allowed tool permissions
 CLAUDE_USE_CONTINUE=true              # Enable session continuity
-CLAUDE_MIN_VERSION="2.0.76"           # Minimum Claude CLI version
+CLAUDE_MIN_VERSION="2.0.76"           # Minimum Codex CLI version
 ```
 
 **CLI Options:**
-- `--output-format json|text` - Set Claude output format (default: json)
+- `--output-format json|text` - Set Codex output format (default: json)
 - `--allowed-tools "Write,Read,Bash(git *)"` - Restrict allowed tools
 - `--no-continue` - Disable session continuity, start fresh each loop
 
@@ -226,7 +226,7 @@ Each loop iteration injects context via `build_loop_context()`:
 - Previous loop work summary
 
 **Session Continuity:**
-- Sessions are preserved in `.ralph/.claude_session_id`
+- Sessions are preserved in `.ralph/.codex_session_id`
 - Use `--continue` flag to maintain context across loops
 - Disable with `--no-continue` for isolated iterations
 
@@ -235,29 +235,29 @@ The loop uses a dual-condition check to prevent premature exits during productiv
 
 **Exit requires BOTH conditions:**
 1. `recent_completion_indicators >= 2` (heuristic-based detection from natural language patterns)
-2. Claude's explicit `EXIT_SIGNAL: true` in the RALPH_STATUS block
+2. Codex's explicit `EXIT_SIGNAL: true` in the RALPH_STATUS block
 
-The `EXIT_SIGNAL` value is read from `.ralph/.response_analysis` (at `.analysis.exit_signal`) which is populated by `response_analyzer.sh` from Claude's RALPH_STATUS output block.
+The `EXIT_SIGNAL` value is read from `.ralph/.response_analysis` (at `.analysis.exit_signal`) which is populated by `response_analyzer.sh` from Codex's RALPH_STATUS output block.
 
 **Other exit conditions (checked before completion indicators):**
-- Multiple consecutive "done" signals from Claude Code (`done_signals >= 2`)
+- Multiple consecutive "done" signals from Codex (`done_signals >= 2`)
 - Too many test-only loops indicating feature completeness (`test_loops >= 3`)
 - All items in .ralph/fix_plan.md marked as completed
 
 **Example behavior when EXIT_SIGNAL is false:**
 ```
-Loop 5: Claude outputs "Phase complete, moving to next feature"
+Loop 5: Codex outputs "Phase complete, moving to next feature"
         → completion_indicators: 3 (high confidence from patterns)
-        → EXIT_SIGNAL: false (Claude explicitly says more work needed)
-        → Result: CONTINUE (respects Claude's explicit intent)
+        → EXIT_SIGNAL: false (Codex explicitly says more work needed)
+        → Result: CONTINUE (respects Codex's explicit intent)
 
-Loop 8: Claude outputs "All tasks complete, project ready"
+Loop 8: Codex outputs "All tasks complete, project ready"
         → completion_indicators: 4
-        → EXIT_SIGNAL: true (Claude confirms project is done)
+        → EXIT_SIGNAL: true (Codex confirms project is done)
         → Result: EXIT with "project_complete"
 ```
 
-**Rationale:** Natural language patterns like "done" or "complete" can trigger false positives during productive work (e.g., "feature done, moving to tests"). By requiring Claude's explicit EXIT_SIGNAL confirmation, Ralph avoids exiting mid-iteration when Claude is still working.
+**Rationale:** Natural language patterns like "done" or "complete" can trigger false positives during productive work (e.g., "feature done, moving to tests"). By requiring Codex's explicit EXIT_SIGNAL confirmation, Ralph avoids exiting mid-iteration when Codex is still working.
 
 ## CI/CD Pipeline
 
@@ -271,10 +271,10 @@ Ralph uses GitHub Actions for continuous integration:
    - Coverage reporting with kcov (informational only)
    - Uploads coverage artifacts
 
-2. **claude.yml** - Claude Code GitHub Actions integration
+2. **codex.yml** - Codex GitHub Actions integration
    - Automated code review capabilities
 
-3. **claude-code-review.yml** - PR code review workflow
+3. **codex-code-review.yml** - PR code review workflow
    - Automated review on pull requests
 
 ### Coverage Note
@@ -333,7 +333,7 @@ After installation, the following global commands are available:
 ## Integration Points
 
 Ralph integrates with:
-- **Claude Code CLI**: Uses `npx @anthropic/claude-code` as the execution engine
+- **Codex CLI**: Uses `npx @openai/codex` as the execution engine
 - **tmux**: Terminal multiplexer for integrated monitoring sessions
 - **Git**: Expects projects to be git repositories
 - **jq**: For JSON processing of status and exit signals
@@ -357,7 +357,7 @@ The `completion_indicators` exit condition requires dual verification:
 | completion_indicators | EXIT_SIGNAL | .response_analysis | Result |
 |-----------------------|-------------|-------------------|--------|
 | >= 2 | `true` | exists | **Exit** ("project_complete") |
-| >= 2 | `false` | exists | **Continue** (Claude still working) |
+| >= 2 | `false` | exists | **Continue** (Codex still working) |
 | >= 2 | N/A | missing | **Continue** (defaults to false) |
 | >= 2 | N/A | malformed | **Continue** (defaults to false) |
 | < 2 | `true` | exists | **Continue** (threshold not met) |
@@ -375,7 +375,7 @@ if [[ $recent_completion_indicators -ge 2 ]] && [[ "$claude_exit_signal" == "tru
 fi
 ```
 
-**Conflict Resolution:** When `STATUS: COMPLETE` but `EXIT_SIGNAL: false` in RALPH_STATUS, the explicit EXIT_SIGNAL takes precedence. This allows Claude to mark a phase complete while indicating more phases remain.
+**Conflict Resolution:** When `STATUS: COMPLETE` but `EXIT_SIGNAL: false` in RALPH_STATUS, the explicit EXIT_SIGNAL takes precedence. This allows Codex to mark a phase complete while indicating more phases remain.
 
 ### Circuit Breaker Thresholds
 - `CB_NO_PROGRESS_THRESHOLD=3` - Open circuit after 3 loops with no file changes
@@ -403,9 +403,9 @@ CB_AUTO_RESET=false       # true = bypass cooldown, reset to CLOSED on startup
 
 ### Permission Denial Detection (Issue #101)
 
-When Claude Code is denied permission to execute commands (e.g., `npm install`), Ralph detects this from the `permission_denials` array in the JSON output and halts the loop immediately:
+When Codex is denied permission to execute commands (e.g., `npm install`), Ralph detects this from the `permission_denials` array in the JSON output and halts the loop immediately:
 
-1. **Detection**: The `parse_json_response()` function extracts `permission_denials` from Claude Code output
+1. **Detection**: The `parse_json_response()` function extracts `permission_denials` from Codex output
 2. **Fields tracked**:
    - `has_permission_denials` (boolean)
    - `permission_denial_count` (integer)
@@ -452,7 +452,7 @@ Ralph uses advanced error detection with two-stage filtering to eliminate false 
 | `test_circuit_breaker_recovery.bats` | 19 | Cooldown timer, auto-reset, parse_iso_to_epoch, CLI flag (Issue #160) |
 | `test_cli_parsing.bats` | 35 | CLI argument parsing for all flags + monitor parameter forwarding |
 | `test_cli_modern.bats` | 33 | Modern CLI commands (Phase 1.1) + build_claude_command fix |
-| `test_json_parsing.bats` | 52 | JSON output format parsing + Claude CLI format + session management + array format |
+| `test_json_parsing.bats` | 52 | JSON output format parsing + Codex CLI format + session management + array format |
 | `test_session_continuity.bats` | 44 | Session lifecycle management + expiration + circuit breaker integration + issue #91 fix |
 | `test_exit_detection.bats` | 53 | Exit signal detection + EXIT_SIGNAL-based completion indicators + progress detection |
 | `test_rate_limiting.bats` | 15 | Rate limiting behavior |

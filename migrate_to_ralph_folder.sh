@@ -110,6 +110,7 @@ create_backup() {
     [[ -f "$project_dir/.circuit_breaker_state" ]] && cp "$project_dir/.circuit_breaker_state" "$backup_dir/"
     [[ -f "$project_dir/.circuit_breaker_history" ]] && cp "$project_dir/.circuit_breaker_history" "$backup_dir/"
     [[ -f "$project_dir/.claude_session_id" ]] && cp "$project_dir/.claude_session_id" "$backup_dir/"
+    [[ -f "$project_dir/.codex_session_id" ]] && cp "$project_dir/.codex_session_id" "$backup_dir/"
     [[ -f "$project_dir/.ralph_session" ]] && cp "$project_dir/.ralph_session" "$backup_dir/"
     [[ -f "$project_dir/status.json" ]] && cp "$project_dir/status.json" "$backup_dir/"
 
@@ -236,6 +237,7 @@ migrate_project() {
         ".circuit_breaker_state"
         ".circuit_breaker_history"
         ".claude_session_id"
+        ".codex_session_id"
         ".ralph_session"
         ".ralph_session_history"
         ".json_parse_result"

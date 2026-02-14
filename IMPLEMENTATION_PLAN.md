@@ -1,4 +1,4 @@
-# Ralph for Claude Code - Implementation Plan
+# Ralph for Codex - Implementation Plan
 
 **Version**: v0.9.8 | **Tests**: 276 passing (100% pass rate) | **CI/CD**: GitHub Actions
 
@@ -8,13 +8,13 @@
 
 ### Phase 1: CLI Modernization (In Progress)
 
-Phase 1 focuses on modernizing Ralph's CLI integration with Claude Code, including JSON output parsing, session management, and documentation.
+Phase 1 focuses on modernizing Ralph's CLI integration with Codex, including JSON output parsing, session management, and documentation.
 
 **Status**: Core features complete (1.1-1.4), remaining items are documentation and bug fixes.
 
 | Issue | Title | Priority | Status |
 |-------|-------|----------|--------|
-| #51 | Phase 1.5: Implement session expiration for .claude_session_id | P2 | Open |
+| #51 | Phase 1.5: Implement session expiration for .codex_session_id | P2 | Open |
 | #24 | Phase 1.9: Create TESTING.md documentation | P3 | Open |
 | #25 | Phase 1.10: Create CONTRIBUTING.md guide | P3 | Open |
 | #26 | Phase 1.11: Update README with testing instructions | P3 | Open |
@@ -28,7 +28,7 @@ Phase 1 focuses on modernizing Ralph's CLI integration with Claude Code, includi
 
 ### Phase 2: Agent SDK Integration (P2)
 
-Migrate from CLI-only execution to a hybrid CLI/SDK architecture using Claude's Agent SDK.
+Migrate from CLI-only execution to a hybrid CLI/SDK architecture using Codex's Agent SDK.
 
 | Issue | Title | Priority | Status |
 |-------|-------|----------|--------|
@@ -188,15 +188,15 @@ Run Ralph in isolated sandbox environments for security and reproducibility.
 | #1 | Cannot find file ~/.ralph/lib/response_analyzer.sh | Closed |
 | #2 | is_error: false triggers "error" circuit breaker incorrectly | Closed |
 | #5 | Bug: date: illegal option -- d on macOS | Closed |
-| #7 | Review codebase for updated Anthropic CLI | Closed |
+| #7 | Review codebase for updated Codex CLI | Closed |
 | #42 | Windows: Git Bash windows spawn when running Ralph loop | Closed |
-| #55 | --prompt-file flag does not exist in Claude Code CLI | Closed |
+| #55 | --prompt-file flag does not exist in Codex CLI | Closed |
 
 ### Other Completed
 
 | Issue | Title | Status |
 |-------|-------|--------|
-| #56 | Project featured in Awesome Claude Code! | Closed |
+| #56 | Project featured in Awesome Codex! | Closed |
 | #63 | Fix IMPLEMENTATION_PLAN | Closed |
 
 </details>

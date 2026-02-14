@@ -1,4 +1,4 @@
-# Contributing to Ralph for Claude Code
+# Contributing to Ralph for Codex
 
 Thank you for your interest in contributing to Ralph! This guide will help you get started and ensure your contributions follow our established patterns and quality standards.
 
@@ -33,8 +33,8 @@ Before contributing, ensure you have the following installed:
 
 ```bash
 # Fork the repository on GitHub first, then clone your fork
-git clone https://github.com/YOUR_USERNAME/ralph-claude-code.git
-cd ralph-claude-code
+git clone https://github.com/YOUR_USERNAME/ralph-codex.git
+cd ralph-codex
 ```
 
 ### Install Dependencies
@@ -63,7 +63,7 @@ npm test
 ### Project Structure
 
 ```
-ralph-claude-code/
+ralph-codex/
 ├── ralph_loop.sh        # Main loop script
 ├── ralph_monitor.sh     # Live monitoring dashboard
 ├── setup.sh             # Project initialization
@@ -384,7 +384,7 @@ teardown() {
 1. **Test both success and failure cases**
 2. **Use descriptive test names** that explain the scenario
 3. **Isolate tests** - each test should be independent
-4. **Mock external dependencies** (Claude CLI, tmux, etc.)
+4. **Mock external dependencies** (Codex CLI, tmux, etc.)
 5. **Test edge cases** (empty files, invalid input, boundary values)
 6. **Add comments** for complex test scenarios
 
@@ -624,7 +624,7 @@ Before marking any feature complete:
 - [CLAUDE.md](CLAUDE.md) - Technical specifications
 - [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) - Development roadmap
 - [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) - Progress tracking
-- [GitHub Issues](https://github.com/frankbria/ralph-claude-code/issues) - Bug reports and feature requests
+- [GitHub Issues](https://github.com/frankbria/ralph-codex/issues) - Bug reports and feature requests
 
 ---
 

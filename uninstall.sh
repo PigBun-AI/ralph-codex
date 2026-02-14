@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Ralph for Claude Code - Uninstallation Script
+# Ralph for Codex - Uninstallation Script
 set -e
 
 # Configuration
@@ -147,13 +147,13 @@ remove_ralph_home() {
     fi
 }
 
-# Main uninstallation flow for Ralph for Claude Code
+# Main uninstallation flow for Ralph for Codex
 # Arguments:
 #   $1 - Optional flag passed to confirm_uninstall (-y/--yes)
 # Behavior: Orchestrates full uninstall by calling check, plan, confirm, and remove functions
 # Note: Does not remove project directories created with ralph-setup
 main() {
-    echo "🗑️  Uninstalling Ralph for Claude Code..."
+    echo "🗑️  Uninstalling Ralph for Codex..."
 
     check_installation
     show_removal_plan
@@ -164,7 +164,7 @@ main() {
     remove_ralph_home
 
     echo ""
-    log "SUCCESS" "Ralph for Claude Code has been uninstalled"
+    log "SUCCESS" "Ralph for Codex has been uninstalled"
     echo ""
     echo "Note: Project files created with ralph-setup are not removed."
     echo "You can safely delete those project directories manually if needed."
@@ -174,7 +174,7 @@ main() {
 # Handle command line arguments
 case "${1:-}" in
     -h|--help)
-        echo "Ralph for Claude Code - Uninstallation Script"
+        echo "Ralph for Codex - Uninstallation Script"
         echo ""
         echo "Usage: $0 [OPTIONS]"
         echo ""

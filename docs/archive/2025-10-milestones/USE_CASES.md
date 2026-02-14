@@ -10,8 +10,8 @@
 
 **System Name**: Ralph - Autonomous AI Development Loop
 **System Goal**: Complete software project implementation with minimal human intervention and token waste
-**Primary Actor**: Ralph (bash script orchestrating Claude Code)
-**Supporting Actors**: Claude Code (AI development engine), Human Developer (initiator and reviewer)
+**Primary Actor**: Ralph (bash script orchestrating Codex)
+**Supporting Actors**: Codex (AI development engine), Human Developer (initiator and reviewer)
 
 ---
 
@@ -21,8 +21,8 @@
 **Type**: System
 **Goal**: Execute development loops until project completion or circuit breaker opens
 **Capabilities**:
-- Execute Claude Code with PROMPT.md instructions
-- Analyze Claude Code responses for completion signals
+- Execute Codex with PROMPT.md instructions
+- Analyze Codex responses for completion signals
 - Track file changes and progress
 - Manage rate limits (100 calls/hour)
 - Detect stagnation via circuit breaker
@@ -36,7 +36,7 @@
 
 ---
 
-### Supporting Actor: Claude Code
+### Supporting Actor: Codex
 **Type**: AI System
 **Goal**: Implement features, fix bugs, run tests per PROMPT.md instructions
 **Capabilities**:
@@ -86,11 +86,11 @@
 ## UC-1: Execute Development Loop
 
 **Primary Actor**: Ralph
-**Stakeholders**: Human Developer (wants progress), Claude Code (executor)
+**Stakeholders**: Human Developer (wants progress), Codex (executor)
 **Preconditions**:
 - PROMPT.md exists and is valid
 - fix_plan.md exists with at least one task
-- Claude Code CLI is installed and accessible
+- Codex CLI is installed and accessible
 - git repository is initialized
 
 **Success Guarantee** (Postcondition):
@@ -104,12 +104,12 @@
 1. Ralph reads PROMPT.md
 2. Ralph checks circuit breaker state (must be CLOSED or HALF_OPEN)
 3. Ralph verifies rate limit allows execution
-4. Ralph executes Claude Code with PROMPT.md
-5. Claude Code reads fix_plan.md and selects task
-6. Claude Code implements task (files modified)
-7. Claude Code runs relevant tests
-8. Claude Code outputs RALPH_STATUS block
-9. Ralph analyzes Claude's response (analyze_response)
+4. Ralph executes Codex with PROMPT.md
+5. Codex reads fix_plan.md and selects task
+6. Codex implements task (files modified)
+7. Codex runs relevant tests
+8. Codex outputs RALPH_STATUS block
+9. Ralph analyzes Codex's response (analyze_response)
 10. Ralph updates .exit_signals file (update_exit_signals)
 11. Ralph records loop result in circuit breaker (record_loop_result)
 12. Ralph increments call counter
@@ -131,13 +131,13 @@
 - 3a4. Ralph continues at step 4
 
 **3b. API 5-hour limit reached**:
-- 3b1. Ralph detects "rate limit" error in Claude output
+- 3b1. Ralph detects "rate limit" error in Codex output
 - 3b2. Ralph prompts user: retry or exit?
 - 3b3a. User chooses retry: wait 5 minutes, go to step 4
 - 3b3b. User chooses exit: Ralph exits gracefully
 - USE CASE ENDS
 
-**4a. Claude Code execution fails**:
+**4a. Codex execution fails**:
 - 4a1. Ralph logs error to logs/ralph_error.log
 - 4a2. Ralph updates status.json with "failed" status
 - 4a3. Ralph continues to next loop (retry)
@@ -166,10 +166,10 @@
 ## UC-2: Detect Project Completion
 
 **Primary Actor**: Ralph (via response_analyzer.sh)
-**Stakeholders**: Human Developer (wants reliable exit), Claude Code (signals completion)
+**Stakeholders**: Human Developer (wants reliable exit), Codex (signals completion)
 **Preconditions**:
 - Development loop has executed (UC-1)
-- Claude Code has produced output
+- Codex has produced output
 
 **Success Guarantee**:
 - Completion status accurately determined
@@ -178,7 +178,7 @@
 - EXIT_SIGNAL set correctly (true/false)
 
 **Main Success Scenario**:
-1. Ralph reads Claude Code output file
+1. Ralph reads Codex output file
 2. Ralph checks for structured RALPH_STATUS block
 3. Ralph finds STATUS: COMPLETE and EXIT_SIGNAL: true
 4. Ralph sets confidence score to 100
@@ -236,7 +236,7 @@
 1. Ralph initializes circuit breaker to CLOSED state
 2. After each loop, Ralph calls record_loop_result()
 3. Ralph counts files_changed from git diff
-4. Ralph detects has_errors from Claude output
+4. Ralph detects has_errors from Codex output
 5. Ralph calculates output_length
 6. Circuit breaker updates consecutive_no_progress counter
 7. consecutive_no_progress is 0 (progress detected)
@@ -320,14 +320,14 @@
 - 5a4. Ralph resets counter (go to step 3a1)
 - Continue at step 6
 
-**5b. Claude returns API rate limit error**:
+**5b. Codex returns API rate limit error**:
 - 5b1. Ralph detects "rate_limit_error" in output
 - 5b2. Ralph prompts: "API 5-hour limit reached. Retry? (y/n)"
 - 5b3a. User enters 'y': Ralph waits 5 minutes, retries
 - 5b3b. User enters 'n': Ralph exits gracefully
 - USE CASE ENDS
 
-**Frequency**: Before every Claude Code execution
+**Frequency**: Before every Codex execution
 **Performance**: Rate limit check < 50ms
 
 ---
@@ -415,7 +415,7 @@
 **2a. User cannot determine cause from logs**:
 - 2a1. User runs: `ralph --status` for additional info
 - 2a2. User checks .circuit_breaker_history for state transitions
-- 2a3. User reviews recent Claude output files
+- 2a3. User reviews recent Codex output files
 - Continue at step 3
 
 **3a. Issue is in PROMPT.md or specs/**:
@@ -483,7 +483,7 @@ SYSTEM GOAL: Complete project implementation with minimal token waste
 
 ### Reliability
 - **Availability**: 99%+ when network and API available
-- **Fault Tolerance**: Graceful handling of Claude API errors
+- **Fault Tolerance**: Graceful handling of Codex API errors
 - **Data Integrity**: No data loss on unexpected termination
 
 ### Performance
@@ -497,7 +497,7 @@ SYSTEM GOAL: Complete project implementation with minimal token waste
 - **Documentation**: Complete use cases and examples
 
 ### Security
-- **Authentication**: Respects Claude API authentication
+- **Authentication**: Respects Codex API authentication
 - **Authorization**: Operates only on authorized files
 - **Data Privacy**: No sensitive data logged
 
@@ -508,10 +508,10 @@ SYSTEM GOAL: Complete project implementation with minimal token waste
 | Term | Definition |
 |------|------------|
 | **Circuit Breaker** | Pattern that prevents runaway loops by detecting stagnation |
-| **Exit Signal** | Indicator that Claude has completed all work |
-| **Loop** | One iteration of Ralph executing Claude Code |
+| **Exit Signal** | Indicator that Codex has completed all work |
+| **Loop** | One iteration of Ralph executing Codex |
 | **Rate Limit** | Maximum API calls allowed per hour (100) |
-| **Response Analyzer** | Component that parses Claude output for signals |
+| **Response Analyzer** | Component that parses Codex output for signals |
 | **Stagnation** | Condition where no progress is being made (no file changes) |
 | **Test-Only Loop** | Loop where only tests run, no implementation work |
 

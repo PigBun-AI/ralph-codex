@@ -75,6 +75,87 @@ parse_json_response() {
         return 1
     fi
 
+    # Detect Codex JSONL event stream format
+    # Example events:
+    # {"type":"thread.started","thread_id":"..."}
+    # {"type":"item.completed","item":{"type":"agent_message","text":"..."}}
+    if jq -e 'select(.type == "thread.started")' "$output_file" >/dev/null 2>&1; then
+        local codex_session_id
+        codex_session_id=$(jq -s -r 'map(select(.type == "thread.started")) | first | .thread_id // empty' "$output_file" 2>/dev/null)
+
+        local codex_summary
+        codex_summary=$(jq -s -r 'map(select(.type == "item.completed" and .item.type == "agent_message")) | last | .item.text // empty' "$output_file" 2>/dev/null)
+
+        local codex_exit_signal="false"
+        local codex_status="IN_PROGRESS"
+        local codex_files_modified=0
+        local codex_work_type="UNKNOWN"
+
+        if [[ -n "$codex_summary" ]] && echo "$codex_summary" | grep -q -- "---RALPH_STATUS---"; then
+            local embedded_exit_sig
+            embedded_exit_sig=$(echo "$codex_summary" | grep -m1 "^[[:space:]]*EXIT_SIGNAL:" | cut -d: -f2 | xargs)
+            if [[ "$embedded_exit_sig" == "true" ]]; then
+                codex_exit_signal="true"
+            fi
+
+            local embedded_status
+            embedded_status=$(echo "$codex_summary" | grep -m1 "^[[:space:]]*STATUS:" | cut -d: -f2 | xargs)
+            if [[ -n "$embedded_status" ]]; then
+                codex_status="$embedded_status"
+            fi
+
+            local embedded_files_modified
+            embedded_files_modified=$(echo "$codex_summary" | grep -m1 "^[[:space:]]*FILES_MODIFIED:" | cut -d: -f2 | xargs)
+            if [[ "$embedded_files_modified" =~ ^[0-9]+$ ]]; then
+                codex_files_modified="$embedded_files_modified"
+            fi
+
+            local embedded_work_type
+            embedded_work_type=$(echo "$codex_summary" | grep -m1 "^[[:space:]]*WORK_TYPE:" | cut -d: -f2 | xargs)
+            if [[ -n "$embedded_work_type" ]]; then
+                codex_work_type="$embedded_work_type"
+            fi
+        fi
+
+        local codex_has_completion_signal="false"
+        if [[ "$codex_exit_signal" == "true" || "$codex_status" == "COMPLETE" ]]; then
+            codex_has_completion_signal="true"
+        fi
+
+        jq -n \
+            --arg status "$codex_status" \
+            --argjson exit_signal "$codex_exit_signal" \
+            --argjson is_test_only "false" \
+            --argjson is_stuck "false" \
+            --argjson has_completion_signal "$codex_has_completion_signal" \
+            --argjson files_modified "$codex_files_modified" \
+            --argjson error_count "0" \
+            --arg summary "$codex_summary" \
+            --argjson loop_number "0" \
+            --arg session_id "$codex_session_id" \
+            --argjson confidence "75" \
+            --argjson has_permission_denials "false" \
+            --argjson permission_denial_count "0" \
+            --argjson denied_commands "[]" \
+            '{
+                status: $status,
+                exit_signal: $exit_signal,
+                is_test_only: $is_test_only,
+                is_stuck: $is_stuck,
+                has_completion_signal: $has_completion_signal,
+                files_modified: $files_modified,
+                error_count: $error_count,
+                summary: $summary,
+                loop_number: $loop_number,
+                session_id: $session_id,
+                confidence: $confidence,
+                has_permission_denials: $has_permission_denials,
+                permission_denial_count: $permission_denial_count,
+                denied_commands: $denied_commands
+            }' > "$result_file"
+        return 0
+    fi
+
     # Check if JSON is an array (Claude CLI array format)
     # Claude CLI outputs: [{type: "system", ...}, {type: "assistant", ...}, {type: "result", ...}]
     if jq -e 'type == "array"' "$output_file" >/dev/null 2>&1; then

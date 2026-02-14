@@ -4,8 +4,8 @@ This tutorial walks you through enabling Ralph on an existing project and runnin
 
 ## Prerequisites
 
-- Ralph installed globally (`./install.sh` from the ralph-claude-code repo)
-- Claude Code CLI installed (`npm install -g @anthropic-ai/claude-code`)
+- Ralph installed globally (`./install.sh` from the ralph-codex repo)
+- Codex CLI installed (`npm install -g @openai/codex`)
 - A project directory (we'll create one)
 
 ## Step 1: Create Your Project
@@ -119,7 +119,7 @@ ralph --monitor
 ```
 
 This opens a tmux session with:
-- **Left pane**: Ralph loop output (what Claude is doing)
+- **Left pane**: Ralph loop output (what Codex is doing)
 - **Right pane**: Live monitoring dashboard
 
 ### What You'll See

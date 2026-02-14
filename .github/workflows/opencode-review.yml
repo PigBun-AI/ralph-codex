@@ -3,7 +3,7 @@ name: OpenCode PR Review
 on:
   # Using pull_request (not pull_request_target) because the OpenCode action
   # doesn't support pull_request_target. This means it only works for PRs from
-  # branches in this repo (not forks). Fork PRs are reviewed by claude-code-review.yml instead.
+  # branches in this repo (not forks). Fork PRs are reviewed by codex review workflow instead.
   pull_request:
     types: [opened, synchronize]
     # Skip review for documentation and config-only changes
@@ -111,7 +111,7 @@ jobs:
             - Be aware of prior reviews and that new file information may reflect
               changes because of previous reviews.
 
-            Use the repository's CLAUDE.md for guidance on style and conventions.
+            Use the repository's AGENT.md and project docs for guidance on style and conventions.
             Be constructive and helpful in your feedback.
 
             IMPORTANT: Post exactly ONE comment using `gh pr comment`, then STOP.

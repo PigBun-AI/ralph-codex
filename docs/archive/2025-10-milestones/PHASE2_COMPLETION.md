@@ -68,7 +68,7 @@ Six concrete scenarios using Given/When/Then format:
 
 **Impact**:
 - Eliminates ambiguity in completion detection
-- Provides Claude with concrete examples to follow
+- Provides Codex with concrete examples to follow
 - Enables Ralph to parse and validate expected outputs
 
 ---
@@ -81,7 +81,7 @@ Six concrete scenarios using Given/When/Then format:
 
 #### Actor Catalog
 - **Ralph** (Primary Actor): Autonomous agent orchestrating development loops
-- **Claude Code** (Supporting Actor): AI development engine
+- **Codex** (Supporting Actor): AI development engine
 - **Human Developer** (Supporting Actor): Initiator and reviewer
 
 #### Six Primary Use Cases
@@ -397,7 +397,7 @@ Phase 2 implementation is **complete and validated**. Ralph now has:
 **Requirements Excellence**:
 - SMART criteria with measurable conditions
 - Concrete Given/When/Then scenarios for all exit conditions
-- Clear expectations for Claude Code responses
+- Clear expectations for Codex responses
 
 **Comprehensive Documentation**:
 - 6 fully documented use cases (Cockburn methodology)
@@ -419,7 +419,7 @@ Phase 2 implementation is **complete and validated**. Ralph now has:
 ---
 
 **Implementation Date**: 2025-10-01
-**Lead**: Claude Code (Sonnet 4.5)
+**Lead**: Codex (Sonnet 4.5)
 **Test Results**: 40/40 passing (100%)
 **Lines Added**: 1,640 (documentation + tests)
 **Expert Recommendations Completed**: Phase 2 (3/3 high-priority issues)

@@ -24,7 +24,7 @@
      - JSON validation utilities
 
    - `tests/helpers/mocks.bash` - Mock functions
-     - Mock Claude Code CLI
+     - Mock Codex CLI
      - Mock tmux commands
      - Mock git operations
      - Mock notification systems
@@ -34,7 +34,7 @@
      - Sample PRD documents (MD, JSON)
      - Sample PROMPT.md, fix_plan.md, AGENT.md
      - Sample status.json and progress.json
-     - Sample Claude Code outputs
+     - Sample Codex outputs
      - Complete test project creation
 
 3. **CI/CD Pipeline**

@@ -1,16 +1,16 @@
-# Ralph for Claude Code
+# Ralph for Codex
 
-[![CI](https://github.com/frankbria/ralph-claude-code/actions/workflows/test.yml/badge.svg)](https://github.com/frankbria/ralph-claude-code/actions/workflows/test.yml)
+[![CI](https://github.com/frankbria/ralph-codex/actions/workflows/test.yml/badge.svg)](https://github.com/frankbria/ralph-codex/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Version](https://img.shields.io/badge/version-0.11.4-blue)
 ![Tests](https://img.shields.io/badge/tests-484%20passing-green)
-[![GitHub Issues](https://img.shields.io/github/issues/frankbria/ralph-claude-code)](https://github.com/frankbria/ralph-claude-code/issues)
-[![Mentioned in Awesome Claude Code](https://awesome.re/mentioned-badge.svg)](https://github.com/hesreallyhim/awesome-claude-code)
+[![GitHub Issues](https://img.shields.io/github/issues/frankbria/ralph-codex)](https://github.com/frankbria/ralph-codex/issues)
+[![Mentioned in Awesome Codex](https://awesome.re/mentioned-badge.svg)](https://github.com/hesreallyhim/awesome-codex)
 [![Follow on X](https://img.shields.io/twitter/follow/FrankBria18044?style=social)](https://x.com/FrankBria18044)
 
 > **Autonomous AI development loop with intelligent exit detection and rate limiting**
 
-Ralph is an implementation of the Geoffrey Huntley's technique for Claude Code that enables continuous autonomous development cycles he named after [Ralph Wiggum](https://ghuntley.com/ralph/). It enables continuous autonomous development cycles where Claude Code iteratively improves your project until completion, with built-in safeguards to prevent infinite loops and API overuse.
+Ralph is an implementation of the Geoffrey Huntley's technique for Codex that enables continuous autonomous development cycles he named after [Ralph Wiggum](https://ghuntley.com/ralph/). It enables continuous autonomous development cycles where Codex iteratively improves your project until completion, with built-in safeguards to prevent infinite loops and API overuse.
 
 **Install once, use everywhere** - Ralph becomes a global command available in any directory.
 
@@ -32,7 +32,7 @@ Ralph is an implementation of the Geoffrey Huntley's technique for Claude Code t
 - **Modern CLI flags: `--output-format`, `--allowed-tools`, `--no-continue`**
 - **Interactive project enablement with `ralph-enable` wizard**
 - **`.ralphrc` configuration file for project settings**
-- **Live streaming output with `--live` flag for real-time Claude Code visibility**
+- **Live streaming output with `--live` flag for real-time Codex visibility**
 - Multi-line error matching for accurate stuck loop detection
 - 5-hour API limit handling with user prompts
 - tmux integration for live monitoring
@@ -55,7 +55,7 @@ Ralph is an implementation of the Geoffrey Huntley's technique for Claude Code t
 - Added 13 new regression tests for progress detection and checkbox regex
 
 **v0.11.3 - Live Streaming & Beads Fix**
-- Added live streaming output mode with `--live` flag for real-time Claude Code visibility (#125)
+- Added live streaming output mode with `--live` flag for real-time Codex visibility (#125)
 - Fixed beads task import using correct `bd list` arguments (#150)
 - Applied CodeRabbit review fixes: camelCase variables, status-respecting fallback, jq guards
 - Added 12 new tests for live streaming and beads import improvements
@@ -95,11 +95,11 @@ Ralph is an implementation of the Geoffrey Huntley's technique for Claude Code t
 <summary>Earlier versions (v0.9.x)</summary>
 
 **v0.9.9 - EXIT_SIGNAL Gate & Uninstall Script**
-- Fixed premature exit bug: completion indicators now require Claude's explicit `EXIT_SIGNAL: true`
+- Fixed premature exit bug: completion indicators now require Codex's explicit `EXIT_SIGNAL: true`
 - Added dedicated `uninstall.sh` script for clean Ralph removal
 
 **v0.9.8 - Modern CLI for PRD Import**
-- Modernized `ralph_import.sh` to use Claude Code CLI JSON output format
+- Modernized `ralph_import.sh` to use Codex CLI JSON output format
 - Enhanced error handling with structured JSON error messages
 
 **v0.9.7 - Session Lifecycle Management**
@@ -107,7 +107,7 @@ Ralph is an implementation of the Geoffrey Huntley's technique for Claude Code t
 - Added `--reset-session` CLI flag for manual session reset
 
 **v0.9.6 - JSON Output & Session Management**
-- Extended `parse_json_response()` to support Claude Code CLI JSON format
+- Extended `parse_json_response()` to support Codex CLI JSON format
 - Added session management functions
 
 **v0.9.5 - v0.9.0** - PRD import tests, project setup tests, installation tests, prompt file fix, modern CLI commands, circuit breaker enhancements
@@ -127,25 +127,25 @@ Ralph is an implementation of the Geoffrey Huntley's technique for Claude Code t
 
 ## Features
 
-- **Autonomous Development Loop** - Continuously executes Claude Code with your project requirements
+- **Autonomous Development Loop** - Continuously executes Codex with your project requirements
 - **Intelligent Exit Detection** - Dual-condition check requiring BOTH completion indicators AND explicit EXIT_SIGNAL
 - **Session Continuity** - Preserves context across loop iterations with automatic session management
 - **Session Expiration** - Configurable timeout (default: 24 hours) with automatic session reset
 - **Rate Limiting** - Built-in API call management with hourly limits and countdown timers
-- **5-Hour API Limit Handling** - Detects Claude's 5-hour usage limit and offers wait/exit options
+- **Usage Limit Handling** - Detects provider usage limits and offers wait/exit options
 - **Live Monitoring** - Real-time dashboard showing loop status, progress, and logs
 - **Task Management** - Structured approach with prioritized task lists and progress tracking
 - **Project Templates** - Quick setup for new projects with best-practice structure
 - **Interactive Project Setup** - `ralph-enable` wizard for existing projects with task import
 - **Configuration Files** - `.ralphrc` for project-specific settings and tool permissions
 - **Comprehensive Logging** - Detailed execution logs with timestamps and status tracking
-- **Configurable Timeouts** - Set execution timeout for Claude Code operations (1-120 minutes)
+- **Configurable Timeouts** - Set execution timeout for Codex operations (1-120 minutes)
 - **Verbose Progress Mode** - Optional detailed progress updates during execution
-- **Response Analyzer** - AI-powered analysis of Claude Code responses with semantic understanding
+- **Response Analyzer** - AI-powered analysis of Codex responses with semantic understanding
 - **Circuit Breaker** - Advanced error detection with two-stage filtering, multi-line error matching, and automatic recovery
 - **CI/CD Integration** - GitHub Actions workflow with automated testing
 - **Clean Uninstall** - Dedicated uninstall script for complete removal
-- **Live Streaming Output** - Real-time visibility into Claude Code execution with `--live` flag
+- **Live Streaming Output** - Real-time visibility into Codex execution with `--live` flag
 
 ## Quick Start
 
@@ -166,8 +166,8 @@ INSTALL ONCE              USE MANY TIMES
 Install Ralph globally on your system:
 
 ```bash
-git clone https://github.com/frankbria/ralph-claude-code.git
-cd ralph-claude-code
+git clone https://github.com/frankbria/ralph-codex.git
+cd ralph-codex
 ./install.sh
 ```
 
@@ -245,7 +245,7 @@ To completely remove Ralph from your system:
 ./uninstall.sh
 
 # Or if you deleted the repo, download and run:
-curl -sL https://raw.githubusercontent.com/frankbria/ralph-claude-code/main/uninstall.sh | bash
+curl -sL https://raw.githubusercontent.com/frankbria/ralph-codex/main/uninstall.sh | bash
 ```
 
 ## Understanding Ralph Files
@@ -286,7 +286,7 @@ See the [User Guide](docs/user-guide/) for detailed explanations and the [exampl
 Ralph operates on a simple but powerful cycle:
 
 1. **Read Instructions** - Loads `PROMPT.md` with your project requirements
-2. **Execute Claude Code** - Runs Claude Code with current context and priorities
+2. **Execute Codex** - Runs Codex with current context and priorities
 3. **Track Progress** - Updates task lists and logs execution results
 4. **Evaluate Completion** - Checks for exit conditions and project completion signals
 5. **Repeat** - Continues until project is complete or limits are reached
@@ -297,26 +297,26 @@ Ralph uses a **dual-condition check** to prevent premature exits during producti
 
 **Exit requires BOTH conditions:**
 1. `completion_indicators >= 2` (heuristic detection from natural language patterns)
-2. Claude's explicit `EXIT_SIGNAL: true` in the RALPH_STATUS block
+2. Codex's explicit `EXIT_SIGNAL: true` in the RALPH_STATUS block
 
 **Example behavior:**
 ```
-Loop 5: Claude outputs "Phase complete, moving to next feature"
+Loop 5: Codex outputs "Phase complete, moving to next feature"
         → completion_indicators: 3 (high confidence from patterns)
-        → EXIT_SIGNAL: false (Claude says more work needed)
-        → Result: CONTINUE (respects Claude's explicit intent)
+        → EXIT_SIGNAL: false (Codex says more work needed)
+        → Result: CONTINUE (respects Codex's explicit intent)
 
-Loop 8: Claude outputs "All tasks complete, project ready"
+Loop 8: Codex outputs "All tasks complete, project ready"
         → completion_indicators: 4
-        → EXIT_SIGNAL: true (Claude confirms done)
+        → EXIT_SIGNAL: true (Codex confirms done)
         → Result: EXIT with "project_complete"
 ```
 
 **Other exit conditions:**
 - All tasks in `.ralph/fix_plan.md` marked complete
-- Multiple consecutive "done" signals from Claude Code
+- Multiple consecutive "done" signals from Codex
 - Too many test-focused loops (indicating feature completeness)
-- Claude API 5-hour usage limit reached (with user prompt to wait or exit)
+- Provider/API usage limit reached (with user prompt to wait or exit)
 
 ## Enabling Ralph in Existing Projects
 
@@ -344,7 +344,7 @@ ralph-enable-ci --json                      # Machine-readable output
 
 ## Importing Existing Requirements
 
-Ralph can convert existing PRDs, specifications, or requirement documents into the proper Ralph format using Claude Code.
+Ralph can convert existing PRDs, specifications, or requirement documents into the proper Ralph format using Codex.
 
 ### Supported Formats
 - **Markdown** (.md) - Product requirements, technical specs
@@ -444,9 +444,9 @@ ralph --auto-reset-circuit
 # Or set in .ralphrc: CB_AUTO_RESET=true
 ```
 
-### Claude API 5-Hour Limit
+### API Usage Limit
 
-When Claude's 5-hour usage limit is reached, Ralph:
+When an API usage limit is reached, Ralph:
 1. Detects the limit error automatically
 2. Prompts you to choose:
    - **Option 1**: Wait 60 minutes for the limit to reset (with countdown timer)
@@ -466,7 +466,7 @@ ralph --monitor --prompt my_custom_instructions.md
 ### Execution Timeouts
 
 ```bash
-# Set Claude Code execution timeout (default: 15 minutes)
+# Set Codex execution timeout (default: 15 minutes)
 ralph --timeout 30  # 30-minute timeout for complex tasks
 
 # With monitoring and custom timeout
@@ -489,7 +489,7 @@ ralph --monitor --verbose --timeout 30
 ### Live Streaming Output
 
 ```bash
-# Enable real-time visibility into Claude Code execution
+# Enable real-time visibility into Codex execution
 ralph --live
 
 # Combine with monitoring for best experience
@@ -499,7 +499,7 @@ ralph --monitor --live
 tail -f .ralph/live.log  # Watch in another terminal
 ```
 
-Live streaming mode shows Claude Code's output in real-time as it works, providing visibility into what's happening during each loop iteration.
+Live streaming mode shows Codex's output in real-time as it works, providing visibility into what's happening during each loop iteration.
 
 ### Session Continuity
 
@@ -518,6 +518,7 @@ ralph --reset-session           # Clears current session
 # Check session status
 cat .ralph/.ralph_session              # View current session file
 cat .ralph/.ralph_session_history      # View session transition history
+cat .ralph/.codex_session_id           # View Codex thread/session id
 ```
 
 **Session Auto-Reset Triggers:**
@@ -554,7 +555,7 @@ CB_AUTO_RESET=false              # true = reset to CLOSED on startup (bypasses c
 | completion_indicators | EXIT_SIGNAL | Result |
 |-----------------------|-------------|--------|
 | >= 2 | `true` | **Exit** ("project_complete") |
-| >= 2 | `false` | **Continue** (Claude still working) |
+| >= 2 | `false` | **Continue** (Codex still working) |
 | >= 2 | missing | **Continue** (defaults to false) |
 | < 2 | `true` | **Continue** (threshold not met) |
 
@@ -605,7 +606,7 @@ my-project/
 ## System Requirements
 
 - **Bash 4.0+** - For script execution
-- **Claude Code CLI** - `npm install -g @anthropic-ai/claude-code`
+- **Codex CLI** - `npm install -g @openai/codex`
 - **tmux** - Terminal multiplexer for integrated monitoring (recommended)
 - **jq** - JSON processing for status tracking
 - **Git** - Version control (projects are initialized as git repos)
@@ -724,13 +725,13 @@ tail -f .ralph/logs/ralph.log
 - **5-Hour API Limit** - Ralph detects and prompts for user action (wait or exit)
 - **Stuck Loops** - Check `fix_plan.md` for unclear or conflicting tasks
 - **Early Exit** - Review exit thresholds if Ralph stops too soon
-- **Premature Exit** - Check if Claude is setting `EXIT_SIGNAL: false` (Ralph now respects this)
+- **Premature Exit** - Check if Codex is setting `EXIT_SIGNAL: false` (Ralph now respects this)
 - **Execution Timeouts** - Increase `--timeout` value for complex operations
-- **Missing Dependencies** - Ensure Claude Code CLI and tmux are installed
+- **Missing Dependencies** - Ensure Codex CLI and tmux are installed
 - **tmux Session Lost** - Use `tmux list-sessions` and `tmux attach` to reconnect
 - **Session Expired** - Sessions expire after 24 hours by default; use `--reset-session` to start fresh
 - **timeout: command not found (macOS)** - Install GNU coreutils: `brew install coreutils`
-- **Permission Denied** - Ralph halts when Claude Code is denied permission for commands:
+- **Permission Denied** - Ralph halts when Codex is denied permission for commands:
   1. Edit `.ralphrc` and update `ALLOWED_TOOLS` to include required tools
   2. Common patterns: `Bash(npm *)`, `Bash(git *)`, `Bash(pytest)`
   3. Run `ralph --reset-session` after updating `.ralphrc`
@@ -752,8 +753,8 @@ Ralph is actively seeking contributors! We're working toward v1.0.0 with clear p
 
 ```bash
 # Fork and clone
-git clone https://github.com/YOUR_USERNAME/ralph-claude-code.git
-cd ralph-claude-code
+git clone https://github.com/YOUR_USERNAME/ralph-codex.git
+cd ralph-codex
 
 # Install dependencies and run tests
 npm install
@@ -776,12 +777,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Inspired by the [Ralph technique](https://ghuntley.com/ralph/) created by Geoffrey Huntley
-- Built for [Claude Code](https://claude.ai/code) by Anthropic
+- Built for [Codex](https://platform.openai.com/docs/codex)
+- Codex migration and documentation unification by **PigBun-AI**
 - Community feedback and contributions
 
 ## Related Projects
 
-- [Claude Code](https://claude.ai/code) - The AI coding assistant that powers Ralph
+- [Codex](https://platform.openai.com/docs/codex) - The AI coding assistant that powers Ralph
 - [Aider](https://github.com/paul-gauthier/aider) - Original Ralph technique implementation
 
 ---
@@ -806,10 +808,10 @@ ralph [OPTIONS]
   -s, --status            Show current status and exit
   -m, --monitor           Start with tmux session and live monitor
   -v, --verbose           Show detailed progress updates during execution
-  -l, --live              Enable live streaming output (real-time Claude Code visibility)
-  -t, --timeout MIN       Set Claude Code execution timeout in minutes (1-120, default: 15)
+  -l, --live              Enable live streaming output (real-time Codex visibility)
+  -t, --timeout MIN       Set Codex execution timeout in minutes (1-120, default: 15)
   --output-format FORMAT  Set output format: json (default) or text
-  --allowed-tools TOOLS   Set allowed Claude tools (default: Write,Read,Edit,Bash(git *),Bash(npm *),Bash(pytest))
+  --allowed-tools TOOLS   Legacy compatibility option (ignored by Codex runtime)
   --no-continue           Disable session continuity (start fresh each loop)
   --reset-circuit         Reset the circuit breaker
   --circuit-status        Show circuit breaker status
@@ -854,7 +856,7 @@ Ralph is under active development with a clear path to v1.0.0. See [IMPLEMENTATI
 - Rate limiting (100 calls/hour) and circuit breaker pattern
 - Response analyzer with semantic understanding
 - **484 comprehensive tests** (100% pass rate)
-- **Live streaming output mode** for real-time Claude Code visibility
+- **Live streaming output mode** for real-time Codex visibility
 - tmux integration and live monitoring
 - PRD import functionality with modern CLI JSON parsing
 - Installation system and project templates
@@ -904,4 +906,4 @@ Ralph is seeking contributors! See [CONTRIBUTING.md](CONTRIBUTING.md) for the co
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=frankbria/ralph-claude-code&type=date&legend=top-left)](https://www.star-history.com/#frankbria/ralph-claude-code&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=frankbria/ralph-codex&type=date&legend=top-left)](https://www.star-history.com/#frankbria/ralph-codex&type=date&legend=top-left)

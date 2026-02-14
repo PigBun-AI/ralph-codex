@@ -1,26 +1,26 @@
 #!/bin/bash
 
-# Ralph Import - Convert PRDs to Ralph format using Claude Code
+# Ralph Import - Convert PRDs to Ralph format using Codex
 # Version: 0.9.8 - Modern CLI support with JSON output parsing
 set -e
 
 # Configuration
-CLAUDE_CODE_CMD="claude"
+CLAUDE_CODE_CMD="codex"
 
 # Modern CLI Configuration (Phase 1.1)
 # These flags enable structured JSON output and controlled file operations
-CLAUDE_OUTPUT_FORMAT="json"
+CLAUDE_OUTPUT_FORMAT="text"
 # Use bash array for proper quoting of each tool argument
-declare -a CLAUDE_ALLOWED_TOOLS=('Read' 'Write' 'Bash(mkdir:*)' 'Bash(cp:*)')
-CLAUDE_MIN_VERSION="2.0.76"  # Minimum version for modern CLI features
+declare -a CLAUDE_ALLOWED_TOOLS=()
+CLAUDE_MIN_VERSION="0.100.0"  # Minimum version for Codex CLI
 
 # Temporary file names
 CONVERSION_OUTPUT_FILE=".ralph_conversion_output.json"
 CONVERSION_PROMPT_FILE=".ralph_conversion_prompt.md"
 
 # Global parsed conversion result variables
-# Set by parse_conversion_response() when parsing JSON output from Claude CLI
-declare PARSED_RESULT=""           # Result/summary text from Claude response
+# Set by parse_conversion_response() when parsing JSON output from Codex CLI
+declare PARSED_RESULT=""           # Result/summary text from Codex response
 declare PARSED_SESSION_ID=""       # Session ID for potential continuation
 declare PARSED_FILES_CHANGED=""    # Count of files changed
 declare PARSED_HAS_ERRORS=""       # Boolean flag indicating errors occurred
@@ -96,7 +96,7 @@ detect_response_format() {
 # parse_conversion_response - Parse JSON response and extract conversion status
 #
 # Parameters:
-#   $1 (output_file) - Path to JSON file containing Claude CLI response
+#   $1 (output_file) - Path to JSON file containing Codex CLI response
 #
 # Returns:
 #   0 on success (valid JSON parsed)
@@ -136,7 +136,7 @@ parse_conversion_response() {
     fi
 
     # Extract fields from JSON response
-    # Supports both flat format and Claude CLI format with metadata
+    # Supports both flat format and Codex CLI format with metadata
 
     # Result/summary field
     PARSED_RESULT=$(jq -r '.result // .summary // ""' "$output_file" 2>/dev/null)
@@ -168,9 +168,9 @@ parse_conversion_response() {
     return 0
 }
 
-# check_claude_version - Verify Claude Code CLI version meets minimum requirements
+# check_claude_version - Verify Codex CLI version meets minimum requirements
 #
-# Checks if the installed Claude Code CLI version is at or above CLAUDE_MIN_VERSION.
+# Checks if the installed Codex CLI version is at or above CLAUDE_MIN_VERSION.
 # Uses numeric semantic version comparison (major.minor.patch).
 #
 # Parameters:
@@ -188,7 +188,7 @@ check_claude_version() {
     version=$($CLAUDE_CODE_CMD --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 
     if [[ -z "$version" ]]; then
-        log "WARN" "Could not determine Claude Code CLI version"
+        log "WARN" "Could not determine Codex CLI version"
         return 1
     fi
 
@@ -210,7 +210,7 @@ check_claude_version() {
 
     # Compare major version
     if [[ $ver_major -lt $min_major ]]; then
-        log "WARN" "Claude Code CLI version $version is below recommended $CLAUDE_MIN_VERSION"
+        log "WARN" "Codex CLI version $version is below recommended $CLAUDE_MIN_VERSION"
         return 1
     elif [[ $ver_major -gt $min_major ]]; then
         return 0
@@ -218,7 +218,7 @@ check_claude_version() {
 
     # Major equal, compare minor version
     if [[ $ver_minor -lt $min_minor ]]; then
-        log "WARN" "Claude Code CLI version $version is below recommended $CLAUDE_MIN_VERSION"
+        log "WARN" "Codex CLI version $version is below recommended $CLAUDE_MIN_VERSION"
         return 1
     elif [[ $ver_minor -gt $min_minor ]]; then
         return 0
@@ -226,7 +226,7 @@ check_claude_version() {
 
     # Minor equal, compare patch version
     if [[ $ver_patch -lt $min_patch ]]; then
-        log "WARN" "Claude Code CLI version $version is below recommended $CLAUDE_MIN_VERSION"
+        log "WARN" "Codex CLI version $version is below recommended $CLAUDE_MIN_VERSION"
         return 1
     fi
 
@@ -259,7 +259,7 @@ Supported formats:
 
 The command will:
 1. Create a new Ralph project
-2. Use Claude Code to intelligently convert your PRD into:
+2. Use Codex to intelligently convert your PRD into:
    - .ralph/PROMPT.md (Ralph instructions)
    - .ralph/fix_plan.md (prioritized tasks)
    - .ralph/specs/ (technical specifications)
@@ -279,18 +279,18 @@ check_dependencies() {
     fi
 
     if ! command -v "$CLAUDE_CODE_CMD" &> /dev/null 2>&1; then
-        log "WARN" "Claude Code CLI ($CLAUDE_CODE_CMD) not found. It will be downloaded when first used."
+        log "WARN" "Codex CLI ($CLAUDE_CODE_CMD) not found. It will be downloaded when first used."
     fi
 }
 
-# Convert PRD using Claude Code
+# Convert PRD using Codex
 convert_prd() {
     local source_file=$1
     local project_name=$2
     local use_modern_cli=true
     local cli_exit_code=0
 
-    log "INFO" "Converting PRD to Ralph format using Claude Code..."
+    log "INFO" "Converting PRD to Ralph format using Codex..."
 
     # Check for modern CLI support
     if ! check_claude_version 2>/dev/null; then
@@ -304,7 +304,7 @@ convert_prd() {
     cat > "$CONVERSION_PROMPT_FILE" << 'PROMPTEOF'
 # PRD to Ralph Conversion Task
 
-You are tasked with converting a Product Requirements Document (PRD) or specification into Ralph for Claude Code format.
+You are tasked with converting a Product Requirements Document (PRD) or specification into Ralph for Codex format.
 
 ## Input Analysis
 Analyze the provided specification file and extract:
@@ -421,30 +421,14 @@ PROMPTEOF
         exit 1
     fi
 
-    # Build and execute Claude Code command
-    # Modern CLI: Use --output-format json and --allowedTools for structured output
-    # Fallback: Standard CLI invocation for older versions
+    # Build and execute Codex command
+    # Use non-interactive `codex exec` with the generated conversion prompt.
     # Note: stderr is written to separate file to avoid corrupting JSON output
     local stderr_file="${CONVERSION_OUTPUT_FILE}.err"
-
-    if [[ "$use_modern_cli" == "true" ]]; then
-        # Modern CLI invocation with JSON output and controlled tool permissions
-        # --print: Required for piped input (prevents interactive session hang)
-        # --allowedTools: Permits file operations without user prompts
-        # --strict-mcp-config: Skip loading user MCP servers (faster startup)
-        if $CLAUDE_CODE_CMD --print --strict-mcp-config --output-format "$CLAUDE_OUTPUT_FORMAT" --allowedTools "${CLAUDE_ALLOWED_TOOLS[@]}" < "$CONVERSION_PROMPT_FILE" > "$CONVERSION_OUTPUT_FILE" 2> "$stderr_file"; then
-            cli_exit_code=0
-        else
-            cli_exit_code=$?
-        fi
+    if $CLAUDE_CODE_CMD exec --skip-git-repo-check --sandbox workspace-write "$(cat "$CONVERSION_PROMPT_FILE")" > "$CONVERSION_OUTPUT_FILE" 2> "$stderr_file"; then
+        cli_exit_code=0
     else
-        # Standard CLI invocation (backward compatible)
-        # --print: Required for piped input (prevents interactive session hang)
-        if $CLAUDE_CODE_CMD --print < "$CONVERSION_PROMPT_FILE" > "$CONVERSION_OUTPUT_FILE" 2> "$stderr_file"; then
-            cli_exit_code=0
-        else
-            cli_exit_code=$?
-        fi
+        cli_exit_code=$?
     fi
 
     # Log stderr if there was any (for debugging)
@@ -462,7 +446,7 @@ PROMPTEOF
         if [[ "$output_format" == "json" ]]; then
             if parse_conversion_response "$CONVERSION_OUTPUT_FILE"; then
                 json_parsed=true
-                log "INFO" "Parsed JSON response from Claude CLI"
+                log "INFO" "Parsed JSON response from Codex CLI"
 
                 # Check for errors in JSON response
                 if [[ "$PARSED_HAS_ERRORS" == "true" && "$PARSED_COMPLETION_STATUS" == "failed" ]]; then
@@ -560,7 +544,7 @@ PROMPTEOF
 
         # If JSON parsing provided missing files info, use that for better feedback
         if [[ "$json_parsed" == "true" && -n "$PARSED_MISSING_FILES" && "$PARSED_MISSING_FILES" != "[]" ]]; then
-            log "INFO" "Missing files reported by Claude: $PARSED_MISSING_FILES"
+            log "INFO" "Missing files reported by Codex: $PARSED_MISSING_FILES"
         fi
 
         log "INFO" "You may need to create these files manually or run the conversion again"

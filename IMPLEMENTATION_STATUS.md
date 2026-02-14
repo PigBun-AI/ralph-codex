@@ -65,7 +65,7 @@
 - [x] #27 - Add badges to README (P3)
 
 **Remaining**:
-- [ ] #51 - Session expiration for .claude_session_id (P2)
+- [ ] #51 - Session expiration for .codex_session_id (P2)
 
 ### Phase 2: Agent SDK Integration (0% Complete)
 
@@ -131,7 +131,7 @@
 
 ### v0.9.6
 - JSON output and session management
-- 16 new tests for Claude CLI format
+- 16 new tests for Codex CLI format
 - Test count: 223 → 239
 
 ### v0.9.5
@@ -173,7 +173,7 @@
 | #1 | Cannot find file ~/.ralph/lib/response_analyzer.sh |
 | #2 | is_error: false triggers "error" circuit breaker incorrectly |
 | #5 | Bug: date: illegal option -- d on macOS |
-| #7 | Review codebase for updated Anthropic CLI |
+| #7 | Review codebase for updated Codex CLI |
 | #10 | Implement CLI parsing tests |
 | #11 | Implement installation tests |
 | #12 | Implement project setup tests |
@@ -185,8 +185,8 @@
 | #42 | Windows: Git Bash windows spawn when running Ralph loop |
 | #48 | MAJOR-01: Enhance shell escaping to prevent command injection |
 | #50 | MAJOR-02: Add input validation for --allowed-tools flag |
-| #55 | --prompt-file flag does not exist in Claude Code CLI |
-| #56 | Project featured in Awesome Claude Code! |
+| #55 | --prompt-file flag does not exist in Codex CLI |
+| #56 | Project featured in Awesome Codex! |
 | #63 | Fix IMPLEMENTATION_PLAN |
 
 </details>
@@ -198,7 +198,7 @@
 ### P2 (Medium - Important)
 | Issue | Phase | Title |
 |-------|-------|-------|
-| #51 | 1.5 | Session expiration for .claude_session_id |
+| #51 | 1.5 | Session expiration for .codex_session_id |
 | #32 | 2.1 | Create Agent SDK proof of concept |
 | #33 | 2.2 | Define custom tools for Agent SDK |
 | #34 | 2.3 | Implement hybrid CLI/SDK architecture |

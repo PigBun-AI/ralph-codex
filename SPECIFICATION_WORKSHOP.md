@@ -287,7 +287,7 @@ What needs to happen next?
 
 ### 2. Acceptance Criteria
 
-- [x] Ralph detects "rate_limit_error" in Claude output
+- [x] Ralph detects "rate_limit_error" in Codex output
 - [x] Ralph waits appropriate time before retry (5 minutes)
 - [x] Ralph limits retries to 3 attempts
 - [x] Ralph falls back to user prompt on persistent failure
@@ -322,8 +322,8 @@ What needs to happen next?
 **Scenario 1: Successful Retry**
 
 **Given**:
-- Ralph executes Claude Code at loop #5
-- Claude returns "rate_limit_error: please retry"
+- Ralph executes Codex at loop #5
+- Codex returns "rate_limit_error: please retry"
 - Retry count is 0
 
 **When**: Ralph detects the rate limit error
@@ -331,7 +331,7 @@ What needs to happen next?
 **Then**:
 - Ralph logs "Rate limit detected, attempt 1/3. Waiting 5 minutes..."
 - Ralph sleeps for 300 seconds
-- Ralph retries Claude Code execution
+- Ralph retries Codex execution
 - If successful: continues normally, resets retry count to 0
 
 **Scenario 2: Persistent Failure**

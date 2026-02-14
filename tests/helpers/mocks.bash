@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Mock Functions for Ralph Test Suite
 
-# Mock Claude Code CLI
+# Mock Codex CLI
 export MOCK_CLAUDE_SUCCESS=true
-export MOCK_CLAUDE_OUTPUT="Test output from Claude Code"
+export MOCK_CLAUDE_OUTPUT="Test output from Codex"
 export MOCK_CLAUDE_EXIT_CODE=0
 
 mock_claude_code() {
@@ -11,7 +11,7 @@ mock_claude_code() {
         echo "$MOCK_CLAUDE_OUTPUT"
         return $MOCK_CLAUDE_EXIT_CODE
     else
-        echo "Error: Mock Claude Code failed"
+        echo "Error: Mock Codex failed"
         return 1
     fi
 }
@@ -242,6 +242,7 @@ mock_portable_timeout() {
 setup_mocks() {
     # Replace system commands with mocks
     function claude() { mock_claude_code "$@"; }
+    function codex() { mock_claude_code "$@"; }
     function tmux() { mock_tmux "$@"; }
     function git() { mock_git "$@"; }
     function notify-send() { mock_notify_send "$@"; }
@@ -251,6 +252,7 @@ setup_mocks() {
     function portable_timeout() { mock_portable_timeout "$@"; }
 
     export -f claude
+    export -f codex
     export -f tmux
     export -f git
     export -f notify-send
@@ -263,6 +265,7 @@ setup_mocks() {
 # Teardown all mocks
 teardown_mocks() {
     unset -f claude
+    unset -f codex
     unset -f tmux
     unset -f git
     unset -f notify-send

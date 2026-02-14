@@ -328,7 +328,7 @@ teardown() {
     [[ "$output" == *"git: command not found"* ]]
 }
 
-@test "function uses Claude Code successfully" {
+@test "function uses Codex successfully" {
     # Configure successful mock response
     export MOCK_CLAUDE_SUCCESS=true
     export MOCK_CLAUDE_OUTPUT="Task completed"
@@ -450,7 +450,7 @@ Located at `tests/helpers/mocks.bash`, provides mock implementations:
 #### Available Mocks
 
 ```bash
-# Claude Code CLI mock
+# Codex CLI mock
 mock_claude_code()     # Configurable via MOCK_CLAUDE_* vars
   MOCK_CLAUDE_SUCCESS=true|false
   MOCK_CLAUDE_OUTPUT="response text"
@@ -524,7 +524,7 @@ create_test_project "project-name"
 #### Output Fixtures
 
 ```bash
-# Create sample Claude outputs
+# Create sample Codex outputs
 create_sample_claude_output_success "output.log"  # Successful run
 create_sample_claude_output_error "output.log"    # Error response
 create_sample_claude_output_limit "output.log"    # Rate limit hit
@@ -882,7 +882,7 @@ grep COVERAGE_THRESHOLD .github/workflows/test.yml
 
 1. **Check existing tests**: Look at similar tests in the suite for patterns
 2. **BATS documentation**: https://bats-core.readthedocs.io/
-3. **GitHub Issues**: Report test infrastructure issues at https://github.com/frankbria/ralph-claude-code/issues
+3. **GitHub Issues**: Report test infrastructure issues at https://github.com/frankbria/ralph-codex/issues
 
 ---
 

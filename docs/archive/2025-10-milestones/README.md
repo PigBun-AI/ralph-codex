@@ -23,7 +23,7 @@ For current project status and planning, see:
 - `../../IMPLEMENTATION_STATUS.md` - Current status tracking (updated regularly)
 - `../../IMPLEMENTATION_PLAN.md` - Active roadmap for remaining work
 - `../../README.md` - Main project documentation
-- `../../CLAUDE.md` - Instructions for Claude Code agents
+- `../../CLAUDE.md` - Instructions for Codex agents
 
 ## Historical Context
 

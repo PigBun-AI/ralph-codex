@@ -15,7 +15,7 @@ Should be fast and work well.
 
 **Problems**:
 - What "stuff"? Too vague.
-- What are "best practices"? Claude will guess.
+- What are "best practices"? Codex will guess.
 - "Fast" and "work well" aren't measurable.
 
 ### Good Example
@@ -239,7 +239,7 @@ Passwords must be at least 8 characters.
 
 ## Common Mistakes
 
-### Mistake 1: Assuming Claude knows your preferences
+### Mistake 1: Assuming Codex knows your preferences
 
 **Bad**:
 ```markdown

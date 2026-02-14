@@ -240,6 +240,6 @@ All service methods must log:
 
 3. **Let fix_plan.md evolve** - Ralph will add tasks it discovers. Review periodically and reprioritize.
 
-4. **Don't over-specify** - If Claude can figure it out from context, you don't need to specify it.
+4. **Don't over-specify** - If Codex can figure it out from context, you don't need to specify it.
 
 5. **Review logs** - When something goes wrong, `.ralph/logs/` tells you what Ralph was thinking.

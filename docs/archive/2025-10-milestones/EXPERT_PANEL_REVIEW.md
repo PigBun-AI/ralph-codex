@@ -36,7 +36,7 @@
 ❌ VIOLATION: Single Responsibility Principle
 
 The execute_claude_code() function has TWO responsibilities:
-1. Execute Claude Code (✅ implemented)
+1. Execute Codex (✅ implemented)
 2. Analyze results (❌ missing)
 
 Current architecture:
@@ -51,7 +51,7 @@ feedback loop pattern essential for autonomous systems.
 
 RECOMMENDATION:
 Extract a ResponseAnalyzer class/module with clear responsibilities:
-- Parse Claude Code output
+- Parse Codex output
 - Detect completion signals
 - Identify test-only loops
 - Track progress indicators
@@ -104,14 +104,14 @@ IMPACT: Saves thousands of wasted tokens, provides clear failure signal
 
 **SAM NEWMAN** - Service Integration:
 ```
-❌ MISSING: Contract Definition Between Ralph and Claude
+❌ MISSING: Contract Definition Between Ralph and Codex
 
 In microservices, we define explicit contracts between services. Ralph and
-Claude Code are two services that need a well-defined interface contract.
+Codex are two services that need a well-defined interface contract.
 
 Current state: Implicit, undefined contract
 - Ralph sends: PROMPT.md (unstructured)
-- Claude returns: Free-form text (unparseable)
+- Codex returns: Free-form text (unparseable)
 - No schema, no validation, no structured data
 
 Required state: Explicit contract with structured I/O
@@ -144,13 +144,13 @@ completion=$(echo "$response" | jq -r '.completion_status')
 exit_signal=$(echo "$response" | jq -r '.exit_signal')
 
 if [[ "$exit_signal" == "true" ]]; then
-    log_status "SUCCESS" "Claude signaled completion"
+    log_status "SUCCESS" "Codex signaled completion"
     exit 0
 fi
 ```
 
 RECOMMENDATION:
-1. Define JSON schema for Claude's responses
+1. Define JSON schema for Codex's responses
 2. Update PROMPT.md to request structured output
 3. Add response parser in execute_claude_code()
 4. Validate responses against schema
@@ -200,7 +200,7 @@ RECOMMENDATION:
 Rewrite completion requirements with:
 1. Clear exit conditions (3 measurable criteria)
 2. Structured output format (JSON or key=value)
-3. Validation checklist Claude must verify
+3. Validation checklist Codex must verify
 4. Explicit "DONE" signal in parseable format
 
 Example structured output requirement:
@@ -225,7 +225,7 @@ IMPACT: Provides clear contract for completion
 ```
 ⚠️ MISSING: Concrete Examples of Exit Scenarios
 
-The PROMPT.md tells Claude WHAT to do but not HOW. Let's use Given/When/Then
+The PROMPT.md tells Codex WHAT to do but not HOW. Let's use Given/When/Then
 to make this concrete.
 
 Current state: Abstract instructions
@@ -235,8 +235,8 @@ Example 1: Successful Completion
 Given: All fix_plan.md items are checked [x]
   And: Last test run shows 100% passing
   And: No errors in logs/
-When: Claude evaluates project status
-Then: Claude outputs EXIT_SIGNAL=true
+When: Codex evaluates project status
+Then: Codex outputs EXIT_SIGNAL=true
   And: Provides completion summary
   And: Ralph detects signal and exits loop
 
@@ -244,16 +244,16 @@ Example 2: Detected Test-Only Loop
 Given: Last 3 loops only executed tests
   And: No files were modified
   And: No new test files were created
-When: Claude starts loop iteration
-Then: Claude outputs TEST_ONLY=true
+When: Codex starts loop iteration
+Then: Codex outputs TEST_ONLY=true
   And: Ralph increments test_only_loops counter
   And: After 3 consecutive, Ralph exits with "test_saturation"
 
 Example 3: Stuck on Error
 Given: Same error appears in last 5 loops
   And: No progress on fixing the error
-When: Claude attempts same fix repeatedly
-Then: Claude outputs STUCK=true
+When: Codex attempts same fix repeatedly
+Then: Codex outputs STUCK=true
   And: Provides error description
   And: Recommends human intervention
   And: Ralph exits with "needs_human_help"
@@ -270,7 +270,7 @@ This makes the contract explicit and testable.
 
 PRIORITY: 🟡 HIGH - Clarity prevents misunderstandings
 EFFORT: Low (documentation)
-IMPACT: Claude understands exactly what Ralph needs
+IMPACT: Codex understands exactly what Ralph needs
 ```
 
 **ALISTAIR COCKBURN** - Use Case Analysis:
@@ -280,7 +280,7 @@ IMPACT: Claude understands exactly what Ralph needs
 Who is the primary actor in Ralph's system?
 - The human developer? (initiated Ralph but isn't actively involved)
 - Ralph script? (executor but not decision maker)
-- Claude Code? (does the work but doesn't control the loop)
+- Codex? (does the work but doesn't control the loop)
 
 This ambiguity causes the infinite loop problem!
 
@@ -288,7 +288,7 @@ Required: Clear goal hierarchy
 
 SYSTEM GOAL: Complete project implementation with minimal token waste
   ↓
-SUB-GOAL 1: Execute Claude Code to make progress
+SUB-GOAL 1: Execute Codex to make progress
   SUCCESS: Files changed, tests pass, tasks completed
   FAILURE: No files changed, tests fail, no progress
   ↓
@@ -303,25 +303,25 @@ SUB-GOAL 3: Minimize token consumption
 Primary Use Case: Autonomous Development
 Primary Actor: Ralph (autonomous agent)
 Goal: Complete project implementation and exit when done
-Precondition: PROMPT.md exists, Claude Code is available
+Precondition: PROMPT.md exists, Codex is available
 Success: All tasks complete, exit loop with summary
 Failure: Infinite loop, token waste, manual interruption required
 
 Main Success Scenario:
 1. Ralph loads PROMPT.md
-2. Ralph executes Claude Code
-3. Claude performs work and reports status
+2. Ralph executes Codex
+3. Codex performs work and reports status
 4. Ralph analyzes response and updates signals
 5. Ralph checks exit conditions
 6. If complete: exit with summary (SUCCESS)
 7. If not complete: go to step 2
 
 Extensions (Error Handling):
-3a. Claude reports completion
+3a. Codex reports completion
     1. Ralph verifies all tasks complete
     2. Ralph exits (avoid unnecessary loops)
 
-3b. Claude reports stuck on error
+3b. Codex reports stuck on error
     1. Ralph increments stuck_counter
     2. If stuck_counter > 3: exit with "needs_help"
 
@@ -357,14 +357,14 @@ Current test coverage:
 ✅ Unit tests: can_make_call(), increment_call_counter() (15 tests)
 ✅ Unit tests: should_exit_gracefully() (20 tests)
 ❌ Integration tests: execute_claude_code() + analysis pipeline (0 tests)
-❌ E2E tests: Full loop with mock Claude (0 tests)
+❌ E2E tests: Full loop with mock Codex (0 tests)
 ❌ Performance tests: Token consumption tracking (0 tests)
 
 The CRITICAL gap: No tests for the main loop execution path!
 
 Required test scenarios:
 1. Loop with successful completion
-   - Mock Claude output with EXIT_SIGNAL=true
+   - Mock Codex output with EXIT_SIGNAL=true
    - Verify Ralph detects signal and exits
    - Verify exit_reason="completion_signals"
 
@@ -384,13 +384,13 @@ Required test scenarios:
    - Verify loop resumes after reset
 
 5. Loop with API 5-hour limit
-   - Mock Claude output with rate limit error
+   - Mock Codex output with rate limit error
    - Verify user prompt appears
    - Verify loop exits or waits based on user choice
 
 RECOMMENDATION:
 Create tests/integration/test_loop_execution.bats with:
-- Mock Claude Code that returns pre-defined responses
+- Mock Codex that returns pre-defined responses
 - Verification of signal detection and updates
 - Validation of exit conditions triggering correctly
 - Token consumption and efficiency metrics
@@ -412,7 +412,7 @@ The exit detection logic was implemented without involving:
 If a tester had been involved, they would have asked:
 "How do we verify that exit detection works?"
 "What are the edge cases?"
-"Can we simulate Claude saying 'done'?"
+"Can we simulate Codex saying 'done'?"
 
 This would have revealed the missing test coverage and the fact that
 .exit_signals is never populated.
@@ -566,7 +566,7 @@ IMPACT: Better monitoring and integration
 **Week 1 Priority**
 1. **Response Analysis Pipeline** (Martin Fowler)
    - Extract response parser component
-   - Parse Claude output for signals
+   - Parse Codex output for signals
    - Update .exit_signals file
    - **Blocker for all exit detection**
 
@@ -596,7 +596,7 @@ IMPACT: Better monitoring and integration
    - **Clarity prevents ambiguity**
 
 5. **Integration Tests** (Lisa Crispin)
-   - Test full loop with mock Claude
+   - Test full loop with mock Codex
    - Verify signal detection works
    - Validate exit conditions
    - **Ensures fixes work correctly**
@@ -665,7 +665,7 @@ IMPACT: Better monitoring and integration
 1. **Immediate**: Implement response parser (Phase 1, Item 1)
 2. **Day 1**: Add circuit breaker (Phase 1, Item 2)
 3. **Day 2**: Define output schema (Phase 1, Item 3)
-4. **Week 1**: Test with mock Claude to validate
+4. **Week 1**: Test with mock Codex to validate
 5. **Week 2**: Document and enhance (Phase 2)
 6. **Week 3+**: Add observability (Phase 3)
 

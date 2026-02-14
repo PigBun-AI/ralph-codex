@@ -34,4 +34,4 @@ Check out the [examples/](../../examples/) directory for complete, realistic pro
 
 - **[Main README](../../README.md)** - Full documentation and configuration options
 - **[CONTRIBUTING.md](../../CONTRIBUTING.md)** - How to contribute to Ralph
-- **[GitHub Issues](https://github.com/frankbria/ralph-claude-code/issues)** - Report bugs or request features
+- **[GitHub Issues](https://github.com/frankbria/ralph-codex/issues)** - Report bugs or request features
